@@ -13,6 +13,7 @@
         <item name="android:paddingEnd">12dp</item>
         <item name="android:paddingTop">8dp</item>
         <item name="android:paddingBottom">8dp</item>
+        <item name="android:textColor">@color/color_text_primary</item>
         <item name="android:textColorHint">@color/color_text_secondary</item>
     </style>
 
