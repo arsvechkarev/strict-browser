@@ -37,13 +37,13 @@ class BrowserActivity : AppCompatActivity(R.layout.activity_browser) {
         setupEditTextSearch()
         setupWebView()
         setupMenuClick()
-        searchForText(requireNotNull(intent.getStringExtra(SEARCH_TEXT)))
+        handleUrlIntent()
     }
 
     private fun setupEditTextSearch() {
         editTextSearch.setOnEditorActionListener { _, actionId, _ ->
             if (actionId == EditorInfo.IME_ACTION_SEARCH) {
-                searchForText(editTextSearch.text.toString())
+                handleSearchRequest(editTextSearch.text.toString())
                 return@setOnEditorActionListener true
             }
             return@setOnEditorActionListener false
@@ -84,6 +84,7 @@ class BrowserActivity : AppCompatActivity(R.layout.activity_browser) {
 
             override fun onPageStarted(view: WebView, url: String, favicon: Bitmap?) {
                 scheduleProgressVisibility(isVisible = true)
+                editTextSearch.setText(url)
             }
 
             override fun onReceivedError(
@@ -125,9 +126,17 @@ class BrowserActivity : AppCompatActivity(R.layout.activity_browser) {
         handler.postDelayed({ progress.isInvisible = !isVisible }, HANDLER_VISIBILITY_DELAY)
     }
 
-    private fun searchForText(toString: String) {
-        editTextSearch.setText(toString)
-        webView.loadUrl(toString.toDuckDuckGoSearchUrl())
+    private fun handleUrlIntent() {
+        handleSearchRequest(intent.dataString ?: requireNotNull(intent.getStringExtra(SEARCH_TEXT)))
+    }
+
+    private fun handleSearchRequest(urlOrText: String) {
+        editTextSearch.setText(urlOrText)
+        if (urlOrText.startsWith(HTTP_PREFIX)) {
+            webView.loadUrl(urlOrText)
+        } else {
+            webView.loadUrl(urlOrText.toDuckDuckGoSearchUrl())
+        }
     }
 
     private fun copyCurrentUrl() {
@@ -152,10 +161,7 @@ class BrowserActivity : AppCompatActivity(R.layout.activity_browser) {
 
     override fun onNewIntent(intent: Intent) {
         super.onNewIntent(intent)
-        val dataString = intent.dataString
-        if (dataString?.startsWith("http") == true) {
-            webView.loadUrl(dataString)
-        }
+        handleSearchRequest(intent.dataString ?: return)
     }
 
     override fun onBackPressed() {
@@ -168,6 +174,7 @@ class BrowserActivity : AppCompatActivity(R.layout.activity_browser) {
 
     companion object {
 
+        const val HTTP_PREFIX = "http"
         const val SEARCH_TEXT = "SEARCH_TEXT"
 
         private const val HANDLER_VISIBILITY_DELAY = 100L

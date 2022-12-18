@@ -17,6 +17,7 @@
         <activity
             android:name=".BrowserActivity"
             android:exported="true"
+            android:launchMode="singleTask"
             android:theme="@style/Theme.StrictBrowser.Browser">
             <intent-filter android:autoVerify="true">
                 <action android:name="android.intent.action.VIEW" />

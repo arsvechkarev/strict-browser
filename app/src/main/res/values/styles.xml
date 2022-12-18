@@ -8,7 +8,7 @@
         <item name="android:background">@drawable/bg_search_edit_text</item>
         <item name="android:hint">@string/hint_search</item>
         <item name="android:imeOptions">actionSearch</item>
-        <item name="android:inputType">text</item>
+        <item name="android:inputType">text|textNoSuggestions</item>
         <item name="android:paddingStart">12dp</item>
         <item name="android:paddingEnd">12dp</item>
         <item name="android:paddingTop">8dp</item>
