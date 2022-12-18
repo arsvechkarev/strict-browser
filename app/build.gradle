@@ -1,0 +1,47 @@
+plugins {
+    id 'com.android.application'
+    id 'org.jetbrains.kotlin.android'
+}
+
+android {
+    signingConfigs {
+        Properties properties = new Properties()
+        properties.load(new FileInputStream(file("../local.properties")))
+        release {
+            storeFile file(properties["keystoreFile"])
+            storePassword properties["keystorePassword"]
+            keyAlias properties["keyAlias"]
+            keyPassword properties["keyPassword"]
+        }
+    }
+    namespace 'com.arsvechkarev.strictbrowser'
+    compileSdk 33
+    defaultConfig {
+        applicationId "com.arsvechkarev.strictbrowser"
+        minSdk 24
+        targetSdk 33
+        versionCode 1
+        versionName "1.0"
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        signingConfig signingConfigs.release
+    }
+    buildTypes {
+        release {
+            minifyEnabled true
+            shrinkResources true
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+    kotlinOptions {
+        jvmTarget = '1.8'
+    }
+}
+
+dependencies {
+    implementation 'androidx.appcompat:appcompat:1.5.1'
+    implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
+}

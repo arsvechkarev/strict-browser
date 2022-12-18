@@ -1,0 +1,21 @@
+<resources>
+
+    <style name="Base.Theme.StrictBrowser" parent="Theme.AppCompat.DayNight.DarkActionBar">
+        <item name="colorPrimary">@color/color_foreground_primary</item>
+        <item name="android:statusBarColor">?attr/colorPrimary</item>
+        <item name="android:windowLightStatusBar">true</item>
+        <item name="android:windowBackground">@color/color_background</item>
+    </style>
+
+    <style name="Theme.StrictBrowser" parent="Base.Theme.StrictBrowser" />
+
+    <style name="Theme.StrictBrowser.Main" parent="Theme.StrictBrowser">
+        <item name="actionBarTheme">@style/ToolbarStyle</item>
+    </style>
+
+    <style name="Theme.StrictBrowser.Browser" parent="Theme.StrictBrowser">
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+    </style>
+
+</resources>

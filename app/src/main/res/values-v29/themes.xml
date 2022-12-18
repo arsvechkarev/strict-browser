@@ -1,0 +1,8 @@
+<resources>
+
+    <style name="Theme.StrictBrowser" parent="Base.Theme.StrictBrowser">
+        <item name="android:navigationBarColor">@android:color/black</item>
+        <item name="android:windowLightStatusBar">true</item>
+    </style>
+
+</resources>
