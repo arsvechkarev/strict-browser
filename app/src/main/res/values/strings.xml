@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">StrictBrowser</string>
+    <string name="app_name">Browser</string>
     <string name="label_url">url</string>
     <string name="hint_search">Start typing…</string>
     <string name="text_copy_url">Copy url</string>
