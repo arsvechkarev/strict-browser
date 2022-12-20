@@ -76,7 +76,11 @@ class BrowserActivity : AppCompatActivity(R.layout.activity_browser) {
                 view: WebView,
                 request: WebResourceRequest
             ): Boolean {
-                return loadWebViewUrl(request.url.toString())
+                if (BLACK_LIST.any { website -> request.url.host?.contains(website) == true }) {
+                    webView.loadUrl(REDIRECT_URL)
+                    return true
+                }
+                return false
             }
 
             override fun onPageStarted(view: WebView, url: String, favicon: Bitmap?) {
@@ -169,12 +173,12 @@ class BrowserActivity : AppCompatActivity(R.layout.activity_browser) {
         }
     }
 
-    private fun loadWebViewUrl(url: String): Boolean {
+    private fun loadWebViewUrl(url: String) {
         if (BLACK_LIST.any { website -> Uri.parse(url).host?.contains(website) == true }) {
             webView.loadUrl(REDIRECT_URL)
-            return true
+        } else {
+            webView.loadUrl(url)
         }
-        return false
     }
 
     companion object {
