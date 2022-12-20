@@ -5,6 +5,7 @@ import android.content.ClipData
 import android.content.ClipboardManager
 import android.content.Intent
 import android.graphics.Bitmap
+import android.net.Uri
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
@@ -75,11 +76,7 @@ class BrowserActivity : AppCompatActivity(R.layout.activity_browser) {
                 view: WebView,
                 request: WebResourceRequest
             ): Boolean {
-                if (BLACK_LIST.any { website -> request.url.host?.contains(website) == true }) {
-                    webView.loadUrl(REDIRECT_URL)
-                    return true
-                }
-                return false
+                return loadWebViewUrl(request.url.toString())
             }
 
             override fun onPageStarted(view: WebView, url: String, favicon: Bitmap?) {
@@ -133,9 +130,9 @@ class BrowserActivity : AppCompatActivity(R.layout.activity_browser) {
     private fun handleSearchRequest(urlOrText: String) {
         editTextSearch.setText(urlOrText)
         if (urlOrText.startsWith(HTTP_PREFIX)) {
-            webView.loadUrl(urlOrText)
+            loadWebViewUrl(urlOrText)
         } else {
-            webView.loadUrl(urlOrText.toDuckDuckGoSearchUrl())
+            loadWebViewUrl(urlOrText.toDuckDuckGoSearchUrl())
         }
     }
 
@@ -170,6 +167,14 @@ class BrowserActivity : AppCompatActivity(R.layout.activity_browser) {
         } else {
             super.onBackPressed()
         }
+    }
+
+    private fun loadWebViewUrl(url: String): Boolean {
+        if (BLACK_LIST.any { website -> Uri.parse(url).host?.contains(website) == true }) {
+            webView.loadUrl(REDIRECT_URL)
+            return true
+        }
+        return false
     }
 
     companion object {
